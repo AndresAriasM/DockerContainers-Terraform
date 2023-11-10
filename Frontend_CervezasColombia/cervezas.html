@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cervezas - Cervezas Colombia</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <style>
+        /* Estilos específicos para esta página */
+        .ubicaciones-page .random-container {
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(60, 75, 14, 0.5);
+            width: 20%; /* Ajusta el ancho según tus preferencias */
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .ubicaciones-page .table-container {
+            margin-top: 20px; /* Agrega espacio entre la tabla y el contenido superior */
+        }
+
+        .ubicaciones-page .table-container label,
+        .ubicaciones-page .table-container select,
+        .ubicaciones-page .table-container input {
+            display: block;
+            margin: 10px auto; /* Centra verticalmente y agrega espacio entre elementos */
+        }
+
+        /* Estilo para los títulos en la caja decorativa */
+        .ubicaciones-page .title-box {
+            background-color: #7a8b36; /* Color de fondo de la caja decorativa */
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px; /* Espacio entre la caja decorativa y la tabla */
+        }
+
+        /* Cambiar el color del título */
+        .ubicaciones-page .title-box h1 {
+            color: rgb(4, 4, 4); /* Cambia el color a azul o el que desees */
+        }
+    </style>
+</head>
+<body>
+    <div class="ubicaciones-container ubicaciones-page">
+        <div class="random-container">
+            <div class="title-box">
+                <h1>Cervezas</h1>
+            </div>
+            <div class="table-container">
+                <table>
+                    <tbody id="ubicaciones-table-body">
+                        <!-- Aquí se insertarán las filas de la tabla -->
+                    </tbody>
+                </table>
+                <label for="cerveza_id">Selecciona un ID:</label>
+                <select id="cerveza_id" size="3"> <!-- Ajusta el tamaño de la lista desplegable -->
+                    <option value="">Elige un ID</option>
+                </select>
+
+                <label for="cerveza">Nombre:</label>
+                <input type="text" id="cerveza" readonly>
+                <label for="cerveceria">Cerveceria:</label>
+                <input type="text" id="cerveceria" readonly>
+                <label for="estilo">Estilo:</label>
+                <input type="text" id="estilo" readonly>
+                <label for="rango_abv">Rango ABV:</label>
+                <input type="text" id="rango_abv" readonly>
+                <label for="rango_ibu">Rango IBU:</label>
+                <input type="text" id="rango_ibu" readonly>
+
+                <button onclick="mostrarNombre()">Seleccionar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variable para almacenar los datos de estilos
+        let cervezasData;
+
+        // Obtener referencias a los elementos HTML
+        const idSelector = document.getElementById('cerveza_id');
+        const nombreInput = document.getElementById('cerveza');
+        const cerveceriaInput = document.getElementById('cerveceria');
+        const estiloInput = document.getElementById('estilo');
+        const rangoabvInput = document.getElementById('rango_abv');
+        const rangoibuInput = document.getElementById('rango_ibu');
+
+        // Realizar una solicitud al backend para obtener los datos de estilos
+        fetch('http://localhost:7024/api/cervezas')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Almacenar los datos de estilos en la variable estilosData
+                cervezasData = data;
+
+                // Llena la lista desplegable con IDs
+                cervezasData.forEach(cerveza => {
+                    const option = document.createElement('option');
+                    option.value = cerveza.cerveza_id;
+                    option.textContent = cerveza.cerveza_id;
+                    idSelector.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error al obtener datos de estilos:', error);
+            });
+
+        // Función para mostrar el nombre al hacer clic en el botón
+        function mostrarNombre() {
+            // Obtiene el ID seleccionado
+            const selectedId = idSelector.value;
+
+            // Busca el estilo correspondiente en los datos
+            const selectedCerveza = cervezasData.find(cerveza => cerveza.cerveza_id === selectedId);
+
+            // Actualiza el campo de detalles con la información seleccionada
+            if (selectedCerveza) {
+                nombreInput.value = selectedCerveza.cerveza;
+                cerveceriaInput.value = selectedCerveza.cerveceria;
+                estiloInput.value = selectedCerveza.estilo;
+                rangoabvInput.value = selectedCerveza.rango_abv;
+                rangoibuInput.value = selectedCerveza.rango_ibu;
+            } else {
+                // Si no se encuentra un estilo correspondiente, restablece los campos
+                nombreInput.value = '';
+                cerveceriaInput.value = '';
+                estiloInput.value = '';
+                rangoabvInput.value = '';
+                rangoibuInput.value = '';
+            }
+        }
+    </script>
+</body>
+</html>

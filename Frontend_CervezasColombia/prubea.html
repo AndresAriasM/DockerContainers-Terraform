@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Consulta de Contenido</title>
+</head>
+<body>
+    <h1>Consulta de Contenido</h1>
+    <button id="consultaBoton">Realizar Consulta</button>
+    <div id="resultado"></div>
+
+    <script>
+        document.getElementById("consultaBoton").addEventListener("click", function() {
+            // Realizar la solicitud a la dirección local
+            fetch("http://localhost:7024/api/Resumen")
+                .then(response => response.text())
+                .then(data => {
+                    // Mostrar el contenido en la página
+                    document.getElementById("resultado").textContent = data;
+                })
+                .catch(error => {
+                    console.error("Error al realizar la solicitud:", error);
+                    document.getElementById("resultado").textContent = "Error al realizar la solicitud";
+                });
+        });
+    </script>
+</body>
+</html>

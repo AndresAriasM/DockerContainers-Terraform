@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cervezas Colombia</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <script>
+        // Variable para almacenar la URL del backend
+        var backendUrl = 'http://localhost:7024/api/Resumen';
+    
+        // Esta función realiza una solicitud GET al endpoint del backend y actualiza los elementos HTML
+        function obtenerDatosDesdeBackend() {
+            fetch(backendUrl)
+                .then(response => response.json())
+                .then(data => {
+                    // Actualiza los elementos HTML con los datos obtenidos
+                    document.getElementById('ubicaciones-badge').textContent = data.ubicaciones;
+                    document.getElementById('cervecerias-badge').textContent = data.cervecerias;
+                    document.getElementById('cervezas-badge').textContent = data.cervezas;
+                    document.getElementById('estilos-badge').textContent = data.estilos;
+                    document.getElementById('envasados-badge').textContent = data.envasados;
+                    document.getElementById('ingredientes-badge').textContent = data.ingredientes;
+                })
+                .catch(error => {
+                    console.error('Error al obtener datos desde el backend:', error);
+                });
+        }
+    
+        // Llama a la función para obtener datos cuando la página se carga
+        document.addEventListener('DOMContentLoaded', obtenerDatosDesdeBackend);
+    </script>
+</head>
+<body>
+    <div class="background-image">
+        <div class="content-container">
+            <h1>Cervezas Colombia</h1>
+            <div class="button-container">
+                <div class="button">
+                    <button id="ubicaciones" onclick="window.location.href='ubicaciones.html'">Ubicaciones</button>
+                    <div class="badge" id="ubicaciones-badge">0</div>
+                </div>
+                <div class="button">
+                    <button id="cervecerias" onclick="window.location.href='cervecerias.html'">Cervecerias</button>
+                    <div class="badge" id="cervecerias-badge">0</div>
+                </div>
+                <div class="button">
+                    <button id="cervezas" onclick="window.location.href='cervezas.html'">Cervezas</button>
+                    <div class="badge" id="cervezas-badge">0</div>
+                </div>
+                <div class ="button">
+                    <button id="estilos" onclick="window.location.href='estilos.html'">Estilos</button>
+                    <div class="badge" id="estilos-badge">0</div>
+                </div>
+                <div class="button">
+                    <button id="envasados" onclick="window.location.href='envasados.html'">Envasados</button>
+                    <div class="badge" id="envasados-badge">0</div>
+                </div>
+                <div class ="button">
+                    <button id="ingredientes" onclick="window.location.href='ingredientes.html'">Ingredientes</button>
+                    <div class="badge" id="ingredientes-badge">0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
