@@ -11,7 +11,7 @@
     <script>
         document.getElementById("consultaBoton").addEventListener("click", function() {
             // Realizar la solicitud a la dirección local
-            fetch("http://backend:7024/api/Resumen")
+            fetch("http://localhost:7024/api/Resumen")
                 .then(response => response.text())
                 .then(data => {
                     // Mostrar el contenido en la página

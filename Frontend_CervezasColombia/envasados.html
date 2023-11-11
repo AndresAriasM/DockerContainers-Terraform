@@ -65,58 +65,50 @@
     </div>
 
     <script>
-        // Variable para almacenar los datos de envasados
-        let envasadosData;
+        // Variable para almacenar los datos de estilos
+        let estilosData;
 
         // Obtener referencias a los elementos HTML
         const idSelector = document.getElementById('id');
         const nombreInput = document.getElementById('nombre');
 
-        // Obtener la dirección IP pública de la instancia desde el archivo public_ip.txt
-        fetch('public_ip.txt')
-            .then(response => response.text())
-            .then(backendIp => {
-                // Realizar solicitudes al backend utilizando la dirección IP extraída
-                fetch(`http://${backendIp}:7024/api/envasados`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        // Almacenar los datos de envasados en la variable envasadosData
-                        envasadosData = data;
+        // Realizar una solicitud al backend para obtener los datos de estilos
+        fetch('http://localhost:7024/api/envasados')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Almacenar los datos de estilos en la variable estilosData
+                estilosData = data;
 
-                        // Llena la lista desplegable con IDs
-                        envasadosData.forEach(envasado => {
-                            const option = document.createElement('option');
-                            option.value = envasado.id;
-                            option.textContent = envasado.id;
-                            idSelector.appendChild(option);
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Error al obtener datos de envasados:', error);
-                    });
+                // Llena la lista desplegable con IDs
+                estilosData.forEach(estilo => {
+                    const option = document.createElement('option');
+                    option.value = estilo.id;
+                    option.textContent = estilo.id;
+                    idSelector.appendChild(option);
+                });
             })
             .catch(error => {
-                console.error('Error al leer public_ip.txt:', error);
+                console.error('Error al obtener datos de estilos:', error);
             });
 
-        // Función para mostrar los detalles al hacer clic en el botón
+        // Función para mostrar el nombre al hacer clic en el botón
         function mostrarNombre() {
             // Obtiene el ID seleccionado
             const selectedId = idSelector.value;
 
-            // Busca el envasado correspondiente en los datos
-            const selectedEnvasado = envasadosData.find(envasado => envasado.id === selectedId);
+            // Busca el estilo correspondiente en los datos
+            const selectedEstilo = estilosData.find(estilo => estilo.id === selectedId);
 
             // Actualiza el campo de detalles con la información seleccionada
-            if (selectedEnvasado) {
-                nombreInput.value = selectedEnvasado.nombre;
+            if (selectedEstilo) {
+                nombreInput.value = selectedEstilo.nombre;
             } else {
-                // Si no se encuentra un envasado correspondiente, restablece los campos
+                // Si no se encuentra un estilo correspondiente, restablece los campos
                 nombreInput.value = '';
             }
         }

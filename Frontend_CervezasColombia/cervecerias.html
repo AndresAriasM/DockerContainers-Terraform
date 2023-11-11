@@ -81,36 +81,28 @@
         const rangoabvInput = document.getElementById('instagram');
         const rangoibuInput = document.getElementById('ubicacion');
 
-        // Obtener la dirección IP pública de la instancia desde el archivo public_ip.txt
-        fetch('public_ip.txt')
-            .then(response => response.text())
-            .then(backendIp => {
-                // Realizar solicitudes al backend utilizando la dirección IP extraída
-                fetch(`http://${backendIp}:7024/api/cervecerias`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        // Almacenar los datos de cervecerias en la variable cervezasData
-                        cervezasData = data;
+        // Realizar una solicitud al backend para obtener los datos de estilos
+        fetch('http://localhost:7024/api/cervecerias')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Almacenar los datos de estilos en la variable estilosData
+                cervezasData = data;
 
-                        // Llena la lista desplegable con IDs
-                        cervezasData.forEach(cerveza => {
-                            const option = document.createElement('option');
-                            option.value = cerveza.cerveceria_id;
-                            option.textContent = cerveza.cerveceria_id;
-                            idSelector.appendChild(option);
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Error al obtener datos de cervecerias:', error);
-                    });
+                // Llena la lista desplegable con IDs
+                cervezasData.forEach(cerveza => {
+                    const option = document.createElement('option');
+                    option.value = cerveza.cerveceria_id;
+                    option.textContent = cerveza.cerveceria_id;
+                    idSelector.appendChild(option);
+                });
             })
             .catch(error => {
-                console.error('Error al leer public_ip.txt:', error);
+                console.error('Error al obtener datos de estilos:', error);
             });
 
         // Función para mostrar el nombre al hacer clic en el botón
@@ -118,17 +110,17 @@
             // Obtiene el ID seleccionado
             const selectedId = idSelector.value;
 
-            // Busca la cerveceria correspondiente en los datos
-            const selectedCerveceria = cervezasData.find(cerveza => cerveza.cerveceria_id === selectedId);
+            // Busca el estilo correspondiente en los datos
+            const selectedCerveza = cervezasData.find(cerveza => cerveza.cerveceria_id === selectedId);
 
             // Actualiza el campo de detalles con la información seleccionada
-            if (selectedCerveceria) {
-                cerveceriaInput.value = selectedCerveceria.cerveceria;
-                estiloInput.value = selectedCerveceria.sitio_web;
-                rangoabvInput.value = selectedCerveceria.instagram;
-                rangoibuInput.value = selectedCerveceria.ubicacion;
+            if (selectedCerveza) {
+                cerveceriaInput.value = selectedCerveza.cerveceria;
+                estiloInput.value = selectedCerveza.sitio_web;
+                rangoabvInput.value = selectedCerveza.instagram;
+                rangoibuInput.value = selectedCerveza.ubicacion;
             } else {
-                // Si no se encuentra una cerveceria correspondiente, restablece los campos
+                // Si no se encuentra un estilo correspondiente, restablece los campos
                 cerveceriaInput.value = '';
                 estiloInput.value = '';
                 rangoabvInput.value = '';
