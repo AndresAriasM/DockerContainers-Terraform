@@ -73,7 +73,7 @@
         const nombreInput = document.getElementById('nombre');
 
         // Realizar una solicitud al backend para obtener los datos de estilos
-        fetch('http://localhost:7024/api/envasados')
+        fetch('http://backend:7024/api/envasados')
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);

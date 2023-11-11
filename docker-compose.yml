@@ -11,7 +11,7 @@ services:
     depends_on:
       - backend
     environment:
-      - BACKEND_URL=http://localhost:7024
+      - BACKEND_URL=http://backend:7024
 
   backend:
     image: backend_cervezas 

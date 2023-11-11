@@ -15,7 +15,7 @@ COPY js/script.js /usr/share/nginx/html/js/
 COPY css/images/ /usr/share/nginx/html/css/images/
 
 # Reemplaza la URL del backend en los scripts
-RUN sed -i "s|http://localhost:7024/api/Resumen|${BACKEND_URL}|" /usr/share/nginx/html/js/script.js
+RUN sed -i "s|http://backend:7024/api/Resumen|${BACKEND_URL}|" /usr/share/nginx/html/js/script.js
 
 # Expone el puerto 80 para servir la aplicación
 EXPOSE 80

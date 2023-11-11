@@ -85,7 +85,7 @@
         const rangoibuInput = document.getElementById('rango_ibu');
 
         // Realizar una solicitud al backend para obtener los datos de estilos
-        fetch('http://localhost:7024/api/cervezas')
+        fetch('http://backend:7024/api/cervezas')
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);

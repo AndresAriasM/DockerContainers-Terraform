@@ -76,7 +76,7 @@
         const tipo_ingredienteInput = document.getElementById('tipo_ingrediente');
 
         // Realizar una solicitud al backend para obtener los datos de estilos
-        fetch('http://localhost:7024/api/ingredientes')
+        fetch('http://backend:7024/api/ingredientes')
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);

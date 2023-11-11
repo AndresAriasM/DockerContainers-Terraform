@@ -3,7 +3,7 @@ from flask_cors import CORS
 import sqlite3
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*"}})  # Habilita CORS para rutas que comiencen con "/api"
+CORS(app, resources={r"/api/*": {"origins": "*"}}) # Habilita CORS para rutas que comiencen con "/api"
 
 # Configura la codificación para JSON
 app.config['JSON_AS_ASCII'] = False
