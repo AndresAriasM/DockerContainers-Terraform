@@ -73,7 +73,7 @@
     </div>
 
     <script>
-        // Variable para almacenar los datos de estilos
+        // Variable para almacenar los datos de cervezas
         let cervezasData;
 
         // Obtener referencias a los elementos HTML
@@ -84,39 +84,47 @@
         const rangoabvInput = document.getElementById('rango_abv');
         const rangoibuInput = document.getElementById('rango_ibu');
 
-        // Realizar una solicitud al backend para obtener los datos de estilos
-        fetch('http://backend:7024/api/cervezas')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Almacenar los datos de estilos en la variable estilosData
-                cervezasData = data;
+        // Obtener la dirección IP pública de la instancia desde el archivo public_ip.txt
+        fetch('public_ip.txt')
+            .then(response => response.text())
+            .then(backendIp => {
+                // Realizar solicitudes al backend utilizando la dirección IP extraída
+                fetch(`http://${backendIp}:7024/api/cervezas`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Almacenar los datos de cervezas en la variable cervezasData
+                        cervezasData = data;
 
-                // Llena la lista desplegable con IDs
-                cervezasData.forEach(cerveza => {
-                    const option = document.createElement('option');
-                    option.value = cerveza.cerveza_id;
-                    option.textContent = cerveza.cerveza_id;
-                    idSelector.appendChild(option);
-                });
+                        // Llena la lista desplegable con IDs
+                        cervezasData.forEach(cerveza => {
+                            const option = document.createElement('option');
+                            option.value = cerveza.cerveza_id;
+                            option.textContent = cerveza.cerveza_id;
+                            idSelector.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error al obtener datos de cervezas:', error);
+                    });
             })
             .catch(error => {
-                console.error('Error al obtener datos de estilos:', error);
+                console.error('Error al leer public_ip.txt:', error);
             });
 
-        // Función para mostrar el nombre al hacer clic en el botón
+        // Función para mostrar los detalles al hacer clic en el botón
         function mostrarNombre() {
             // Obtiene el ID seleccionado
             const selectedId = idSelector.value;
 
-            // Busca el estilo correspondiente en los datos
+            // Busca la cerveza correspondiente en los datos
             const selectedCerveza = cervezasData.find(cerveza => cerveza.cerveza_id === selectedId);
 
-            // Actualiza el campo de detalles con la información seleccionada
+            // Actualiza los campos de detalles con la información seleccionada
             if (selectedCerveza) {
                 nombreInput.value = selectedCerveza.cerveza;
                 cerveceriaInput.value = selectedCerveza.cerveceria;
@@ -124,7 +132,7 @@
                 rangoabvInput.value = selectedCerveza.rango_abv;
                 rangoibuInput.value = selectedCerveza.rango_ibu;
             } else {
-                // Si no se encuentra un estilo correspondiente, restablece los campos
+                // Si no se encuentra una cerveza correspondiente, restablece los campos
                 nombreInput.value = '';
                 cerveceriaInput.value = '';
                 estiloInput.value = '';

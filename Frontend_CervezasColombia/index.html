@@ -5,26 +5,42 @@
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <script>
         // Variable para almacenar la URL del backend
-        var backendUrl = 'http://backend:7024/api/Resumen';
-    
+        var backendUrl;
+
+        // Obtener la dirección IP pública de la instancia desde el archivo public_ip.txt
+        fetch('public_ip.txt')
+            .then(response => response.text())
+            .then(backendIp => {
+                // Construir la URL del backend utilizando la dirección IP extraída
+                backendUrl = `http://${backendIp}:7024/api/Resumen`;
+            })
+            .catch(error => {
+                console.error('Error al leer public_ip.txt:', error);
+            });
+
         // Esta función realiza una solicitud GET al endpoint del backend y actualiza los elementos HTML
         function obtenerDatosDesdeBackend() {
-            fetch(backendUrl)
-                .then(response => response.json())
-                .then(data => {
-                    // Actualiza los elementos HTML con los datos obtenidos
-                    document.getElementById('ubicaciones-badge').textContent = data.ubicaciones;
-                    document.getElementById('cervecerias-badge').textContent = data.cervecerias;
-                    document.getElementById('cervezas-badge').textContent = data.cervezas;
-                    document.getElementById('estilos-badge').textContent = data.estilos;
-                    document.getElementById('envasados-badge').textContent = data.envasados;
-                    document.getElementById('ingredientes-badge').textContent = data.ingredientes;
-                })
-                .catch(error => {
-                    console.error('Error al obtener datos desde el backend:', error);
-                });
+            // Verificar si la URL del backend está definida
+            if (backendUrl) {
+                fetch(backendUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Actualiza los elementos HTML con los datos obtenidos
+                        document.getElementById('ubicaciones-badge').textContent = data.ubicaciones;
+                        document.getElementById('cervecerias-badge').textContent = data.cervecerias;
+                        document.getElementById('cervezas-badge').textContent = data.cervezas;
+                        document.getElementById('estilos-badge').textContent = data.estilos;
+                        document.getElementById('envasados-badge').textContent = data.envasados;
+                        document.getElementById('ingredientes-badge').textContent = data.ingredientes;
+                    })
+                    .catch(error => {
+                        console.error('Error al obtener datos desde el backend:', error);
+                    });
+            } else {
+                console.error('La URL del backend no está definida. Verifica el contenido de public_ip.txt.');
+            }
         }
-    
+
         // Llama a la función para obtener datos cuando la página se carga
         document.addEventListener('DOMContentLoaded', obtenerDatosDesdeBackend);
     </script>
