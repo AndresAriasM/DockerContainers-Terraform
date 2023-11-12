@@ -4,42 +4,29 @@
     <title>Cervezas Colombia</title>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <script>
-         var backendUrl;
-
-// Obtener la dirección IP pública de la instancia desde el archivo public_ip.txt
-fetch('public_ip.txt')
-    .then(response => response.text())
-    .then(backendIp => {
-        // Trim para eliminar espacios en blanco alrededor de la IP
-        backendUrl = `http://${backendIp.trim()}:7024/api/Resumen`;
-
-        // Llamar a la función para realizar la solicitud al backend
-        obtenerDatosDesdeBackend(backendUrl);
-    })
-    .catch(error => {
-        console.error('Error al obtener la dirección IP desde el archivo:', error);
-    });
-
-// Función para obtener datos desde el backend
-function obtenerDatosDesdeBackend(url) {
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            // Actualizar los elementos HTML con los datos obtenidos
-            document.getElementById('ubicaciones-badge').textContent = data.ubicaciones;
-            document.getElementById('cervecerias-badge').textContent = data.cervecerias;
-            document.getElementById('cervezas-badge').textContent = data.cervezas;
-            document.getElementById('estilos-badge').textContent = data.estilos;
-            document.getElementById('envasados-badge').textContent = data.envasados;
-            document.getElementById('ingredientes-badge').textContent = data.ingredientes;
-        })
-        .catch(error => {
-            console.error('Error al obtener datos desde el backend:', error);
-        });
-}
-
-// Llama a la función para obtener datos cuando la página se carga
-document.addEventListener('DOMContentLoaded', obtenerDatosDesdeBackend);
+        // Variable para almacenar la URL del backend
+    
+        // Esta función realiza una solicitud GET al endpoint del backend y actualiza los elementos HTML
+        
+        function obtenerDatosDesdeBackend() {
+            fetch(backendUrl)
+                .then(response => response.json())
+                .then(data => {
+                    // Actualiza los elementos HTML con los datos obtenidos
+                    document.getElementById('ubicaciones-badge').textContent = data.ubicaciones;
+                    document.getElementById('cervecerias-badge').textContent = data.cervecerias;
+                    document.getElementById('cervezas-badge').textContent = data.cervezas;
+                    document.getElementById('estilos-badge').textContent = data.estilos;
+                    document.getElementById('envasados-badge').textContent = data.envasados;
+                    document.getElementById('ingredientes-badge').textContent = data.ingredientes;
+                })
+                .catch(error => {
+                    console.error('Error al obtener datos desde el backend:', error);
+                });
+        }
+    
+        // Llama a la función para obtener datos cuando la página se carga
+        document.addEventListener('DOMContentLoaded', obtenerDatosDesdeBackend);
     </script>
 </head>
 <body>
