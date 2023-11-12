@@ -19,13 +19,13 @@ La aplicación se maneja en el puerto 7024 y está configurada para permitir el 
 
 ## Instrucciones para el despliegue con Terraform
 El proyecto contiene un archivo main.tf donde se indican todas las instrucciones para:
-- La creación de la instancia Ubuntu 22.04 - t2.micro en AWS
+- La creación de la instancia Ubuntu 22.04 - t2.micro en AWS.
 - Grupo de seguridad (Reglas de entrada: SSH-22, HTTP-80, TCP-7024) - (Reglas de salida: todo el tráfico).
 - Instalación de los paquetes necesarios (git, docker.io, docker-compose).
-- Clonación del proyecto en la nueva instancia
+- Clonación del proyecto en la nueva instancia.
 - Despliegue de la arquitectura de contenedores.
   
-Antes de ejecutar el .tf se debe hacer una configuración adicional. Se debe abrir el archivo main.tf en un blog de notas o editor de código. Una vez esté abierto, hay que reemplazar dos campos del archivo con infromación propia.
+Antes de ejecutar el .tf se debe hacer una configuración adicional. Se debe abrir el archivo main.tf en un blog de notas o editor de código. Una vez esté abierto, hay que reemplazar dos campos del archivo con información propia.
 El primer campo a modificar esta abajo, toca reemplazar la llave de seguridad con alguna propia de su cuenta AWS. Esta es la que le permitirá conectarse a la instancia por SSH.
 ```
 resource "aws_instance" "cervezas_colombia" {
@@ -62,6 +62,24 @@ Nota: Debe estar exactamente donde se encuentra el archivo main.tf.
 El proyecto tarda aproximadamente entre 10-15min en crearse. Una vez haya culminado verá en consola la IP pública de la instancia creada.
 Copiela y peguela en el browser de su preferencia y listo!
 Ya estará viendo el proyecto desplegado.
+
+## Funcionamiento
+El proyecto esta configurado para desplegar ambos contenedores en el browser.
+El contenedor frontend será con el que el usuario final podrá interactuar. Para acceder se indica en un browser la siguiente URL: http://direccion_ip_instancia_aws
+
+De igual forma el backend podrá visualizarse con la siguiente URL: http://direccion_ip_instancia_aws:7024/api/nombre_interfaz
+Ese nombre_interfaz corresponde a las diferentes tablas y vistas que se incluyen en la base de datos SQLite:
+- Resumen
+- ubicaciones
+- cervcerias
+- cervezas
+- envasados
+- estilos
+- ingredientes
+
+Nota: Para que la API funcione debe referenciar lo anterior tal cual se presenta en este instructivo, respetando mayúsculas y minúsculas.
+
+Cuando se levanta la arquitectura en AWS se levantan estas dos URL, la del frontend y el backend. El código fue desarrollado para que el frontend solicite mediante un GET los datos en formato JSON presentes en la API del backend a medida que el usuario vaya interactuando con la interfaz.
 
 
 
