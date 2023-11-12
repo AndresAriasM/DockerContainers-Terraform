@@ -38,7 +38,7 @@ resource "aws_security_group" "el_killer" {
 resource "aws_instance" "cervezas_colombia" {
   ami           = "ami-0fc5d935ebf8bc3bc"
   instance_type = "t2.micro"
-  key_name      = "ayuda"  # Reemplaza con el nombre de tu par de claves en AWS
+  key_name      = "llave_privada"  # Reemplaza con el nombre de tu par de claves en AWS (SIN extensión)
 
   vpc_security_group_ids = [aws_security_group.el_killer.id]
 
@@ -106,7 +106,7 @@ resource "null_resource" "run_provisioner" {
     connection {
       type        = "ssh"
       user        = "ubuntu"
-      private_key = file("C:\\Users\\Andres Arias\\Downloads\\ayuda.pem")
+      private_key = file("C:\\Users\\Putin\\Documents\\llave_privada.pem") # Reemplaza con la ruta de su equipo local donde tenga su par de claves en AWS (CON extensión)
       host        = aws_instance.cervezas_colombia.public_ip
     }
   }
