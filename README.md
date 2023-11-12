@@ -51,7 +51,18 @@ connection {
 }
 ```
 ### Recuerde gestionar sus credenciales de AWS en la carpeta .aws con Command Line Interface - AWS CLI.
+```
+aws configure
+```
+Esas credenciales se extraen directamente de AWS, ya sea mediante IAM o por la terminal inicial que proporciona el laboratorio AWS para estudiantes.
 ### Credentials & Config
+En este caso, se extrae esa información de la terminal del laboratorio AWS para estudiantes.
+```
+cd .aws
+cat credentials
+cat config
+```
+Luego de tener esa información, se coloca en los archivos correspondientes de la carpeta .aws de su máquina local.
 
 Una vez este hecho, deberá abrir una terminal, dirigirse al directorio clonado de este proyecto y ejecutar los siguientes comandos. 
 Nota: Debe estar exactamente donde se encuentra el archivo main.tf.
@@ -65,9 +76,14 @@ Ya estará viendo el proyecto desplegado.
 
 ## Funcionamiento
 El proyecto esta configurado para desplegar ambos contenedores en el browser.
-El contenedor frontend será con el que el usuario final podrá interactuar. Para acceder se indica en un browser la siguiente URL: http://direccion_ip_instancia_aws
-
-De igual forma el backend podrá visualizarse con la siguiente URL: http://direccion_ip_instancia_aws:7024/api/nombre_interfaz
+El contenedor frontend será con el que el usuario final podrá interactuar. Para acceder se indica en un browser la siguiente URL: 
+```
+http://direccion_ip_instancia_aws
+```
+De igual forma el backend podrá visualizarse con la siguiente URL: 
+```
+http://direccion_ip_instancia_aws:7024/api/nombre_interfaz
+```
 Ese nombre_interfaz corresponde a las diferentes tablas y vistas que se incluyen en la base de datos SQLite:
 - Resumen
 - ubicaciones
