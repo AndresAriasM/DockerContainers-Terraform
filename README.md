@@ -6,11 +6,11 @@
 ## Frontend:
 Desarrollado en HTML y Javascript en Visual Studio Code.
 La interfaz gráfica se maneja en el puerto 80 del host local.
-Cada archivo .html fue configurado para recibir la IP pública de la instancia AWS creada por Terraform, de modo, que se administre correctamente el direccionamiento.
+Cada archivo .html fue configurado para recibir la IP pública de la instancia AWS creada por Terraform, de modo, que se administre correctamente el direccionamiento. Cada archivo mediante scripts solicita a la URL respectiva del backend el contenido de esa API en formato JSON, lo procesa y ubica en la interfaz gráfica.
 
 ## Backend:
 Desarrollado con Python-Flask en Visual Studio Code.
-Contiene un una base de datos .sqlite cuya información es desplegada mediante una API en formato JSON en un browser.
+Contiene una base de datos .sqlite cuya información es desplegada mediante una API en formato JSON en un browser.
 La aplicación se maneja en el puerto 7024 y está configurada para permitir el tráfico de información usando Flask-Cors.
 
 <img width="960" alt="image" src="https://github.com/AndresAriasM/DockerContainers-Terraform/assets/77759820/f1e7375c-8a4c-4076-877e-de5b773d6641">
@@ -27,26 +27,29 @@ El proyecto contiene un archivo main.tf donde se indican todas las instrucciones
   
 Antes de ejecutar el .tf se debe hacer una configuración adicional. Se debe abrir el archivo main.tf en un blog de notas o editor de código. Una vez esté abierto, hay que reemplazar dos campos del archivo con infromación propia.
 El primer campo a modificar esta abajo, toca reemplazar la llave de seguridad con alguna propia de su cuenta AWS. Esta es la que le permitirá conectarse a la instancia por SSH.
-
-```resource "aws_instance" "cervezas_colombia" {
+```
+resource "aws_instance" "cervezas_colombia" {
   ami           = "ami-0fc5d935ebf8bc3bc"
   instance_type = "t2.micro"
-  key_name      = "ayuda"  # Reemplaza con el nombre de tu par de claves en AWS (SIN extensión)
+  key_name      = "ayuda"  # Reemplaza con el nombre de tu par de claves en AWS
+
   vpc_security_group_ids = [aws_security_group.el_killer.id]
-    tags = {
-      Name = "CervezasColombia"
-    }
-  }```
+
+  tags = {
+    Name = "CervezasColombia"
+  }
+}
+```
 
 El segundo campo que hay que tratar también es para el manejo de la llave de seguridad, en este caso hay que poner la ruta local donde usted tenga su llave.
-
-```connection {
-      type        = "ssh"
-      user        = "ubuntu"
-      private_key = file("C:\\Users\\Andres Arias\\Downloads\\ayuda.pem") # Reemplaza con la ruta de su equipo local donde tenga su par de claves en AWS (CON extensión)
-      host        = aws_instance.cervezas_colombia.public_ip
-    }```
-
+```
+connection {
+  type        = "ssh"
+  user        = "ubuntu"
+  private_key = file("C:\\Users\\Andres Arias\\Downloads\\ayuda.pem") # Reemplaza con la ruta de su equipo local donde tenga su par de claves en AWS (CON extensión)
+  host        = aws_instance.cervezas_colombia.public_ip
+}
+```
 ### Recuerde gestionar sus credenciales de AWS en la carpeta .aws con Command Line Interface - AWS CLI.
 ### Credentials & Config
 
