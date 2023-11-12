@@ -21,9 +21,9 @@ La aplicación se maneja en el puerto 7024 y está configurada para permitir el 
 El proyecto contiene un archivo main.tf donde se indican todas las instrucciones para:
 - La creación de la instancia Ubuntu 22.04 - t2.micro en AWS
 - Grupo de seguridad (Reglas de entrada: SSH-22, HTTP-80, TCP-7024) - (Reglas de salida: todo el tráfico).
-- Instalación de los paquetes necesarios
+- Instalación de los paquetes necesarios (git, docker.io, docker-compose).
 - Clonación del proyecto en la nueva instancia
-- Despliegue de la arquitectura de contendores.
+- Despliegue de la arquitectura de contenedores.
   
 Antes de ejecutar el .tf se debe hacer una configuración adicional. Se debe abrir el archivo main.tf en un blog de notas o editor de código. Una vez esté abierto, hay que reemplazar dos campos del archivo con infromación propia.
 El primer campo a modificar esta abajo, toca reemplazar la llave de seguridad con alguna propia de su cuenta AWS. Esta es la que le permitirá conectarse a la instancia por SSH.
