@@ -22,7 +22,7 @@ El proyecto contiene un archivo main.tf donde se indican todas las instrucciones
 Antes de ejecutar el .tf se debe hacer una configuración adicional. Se debe abrir el archivo main.tf en un blog de notas o editor de código. Una vez esté abierto, hay que reemplazar dos campos del archivo con infromación propia.
 El primer campo a modificar esta abajo, toca reemplazar la llave de seguridad con alguna propia de su cuenta AWS. Esta es la que le permitirá conectarse a la instancia por SSH.
 
-  resource "aws_instance" "cervezas_colombia" {
+  ```resource "aws_instance" "cervezas_colombia" {
   ami           = "ami-0fc5d935ebf8bc3bc"
   instance_type = "t2.micro"
   key_name      = "ayuda"  # Reemplaza con el nombre de tu par de claves en AWS (SIN extensión)
