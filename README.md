@@ -87,7 +87,7 @@ http://direccion_ip_instancia_aws:7024/api/nombre_interfaz
 Ese nombre_interfaz corresponde a las diferentes tablas y vistas que se incluyen en la base de datos SQLite:
 - Resumen
 - ubicaciones
-- cervcerias
+- cervecerias
 - cervezas
 - envasados
 - estilos
