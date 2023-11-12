@@ -18,11 +18,17 @@ La aplicación se maneja en el puerto 7024 y está configurada para permitir el 
 <img width="959" alt="image" src="https://github.com/AndresAriasM/DockerContainers-Terraform/assets/77759820/158a7b5e-ed74-41be-8f67-e8626075f26a">
 
 ## Instrucciones para el despliegue con Terraform
-El proyecto contiene un archivo main.tf donde se indican todas las instrucciones para la creación de la instancia Ubuntu 22.04 en AWS, la instalación de los paquetes necesarios, clonación del proyecto en la nueva instancia y despliegue de la aquitectura de contendores.
+El proyecto contiene un archivo main.tf donde se indican todas las instrucciones para:
+- La creación de la instancia Ubuntu 22.04 - t2.micro en AWS
+- Grupo de seguridad (Reglas de entrada: SSH-22, HTTP-80, TCP-7024) - (Reglas de salida: todo el tráfico).
+- Instalación de los paquetes necesarios
+- Clonación del proyecto en la nueva instancia
+- Despliegue de la arquitectura de contendores.
+  
 Antes de ejecutar el .tf se debe hacer una configuración adicional. Se debe abrir el archivo main.tf en un blog de notas o editor de código. Una vez esté abierto, hay que reemplazar dos campos del archivo con infromación propia.
 El primer campo a modificar esta abajo, toca reemplazar la llave de seguridad con alguna propia de su cuenta AWS. Esta es la que le permitirá conectarse a la instancia por SSH.
 
-  ```resource "aws_instance" "cervezas_colombia" {
+```resource "aws_instance" "cervezas_colombia" {
   ami           = "ami-0fc5d935ebf8bc3bc"
   instance_type = "t2.micro"
   key_name      = "ayuda"  # Reemplaza con el nombre de tu par de claves en AWS (SIN extensión)
@@ -30,16 +36,19 @@ El primer campo a modificar esta abajo, toca reemplazar la llave de seguridad co
     tags = {
       Name = "CervezasColombia"
     }
-  }
+  }```
 
 El segundo campo que hay que tratar también es para el manejo de la llave de seguridad, en este caso hay que poner la ruta local donde usted tenga su llave.
 
-    connection {
+```connection {
       type        = "ssh"
       user        = "ubuntu"
       private_key = file("C:\\Users\\Andres Arias\\Downloads\\ayuda.pem") # Reemplaza con la ruta de su equipo local donde tenga su par de claves en AWS (CON extensión)
       host        = aws_instance.cervezas_colombia.public_ip
-    }
+    }```
+
+### Recuerde gestionar sus credenciales de AWS en la carpeta .aws con Command Line Interface - AWS CLI.
+### Credentials & Config
 
 Una vez este hecho, deberá abrir una terminal, dirigirse al directorio clonado de este proyecto y ejecutar los siguientes comandos. 
 Nota: Debe estar exactamente donde se encuentra el archivo main.tf.
