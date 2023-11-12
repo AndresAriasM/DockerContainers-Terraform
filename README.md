@@ -31,7 +31,7 @@ El primer campo a modificar esta abajo, toca reemplazar la llave de seguridad co
 resource "aws_instance" "cervezas_colombia" {
   ami           = "ami-0fc5d935ebf8bc3bc"
   instance_type = "t2.micro"
-  key_name      = "ayuda"  # Reemplaza con el nombre de tu par de claves en AWS
+  key_name      = "llave_privada"  # Reemplaza con el nombre de tu par de claves en AWS
 
   vpc_security_group_ids = [aws_security_group.el_killer.id]
 
@@ -46,7 +46,7 @@ El segundo campo que hay que tratar también es para el manejo de la llave de se
 connection {
   type        = "ssh"
   user        = "ubuntu"
-  private_key = file("C:\\Users\\Andres Arias\\Downloads\\ayuda.pem") # Reemplaza con la ruta de su equipo local donde tenga su par de claves en AWS (CON extensión)
+  private_key = file("C:\\Users\\Putin\\Documents\\llave_privada.pem") # Reemplaza con la ruta de su equipo local donde tenga su par de claves en AWS (CON extensión)
   host        = aws_instance.cervezas_colombia.public_ip
 }
 ```
